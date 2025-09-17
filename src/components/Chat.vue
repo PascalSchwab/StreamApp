@@ -14,34 +14,17 @@
 
 <script setup>
 import Message from './Message.vue';
-import { ref, onMounted, onUnmounted, nextTick } from "vue";
-import socket from "../socket"
+import { ref, watch, nextTick } from "vue";
+import { messages } from "../js/chat";
 
-const messages = ref([]);
 const chatContainer = ref(null);
 let autoScroll = true;
 
-onMounted(() => {
-  socket.on("chat:history", async (history) => {
-    messages.value = history;
-    await nextTick();
-    if (chatContainer.value && autoScroll) {
-      chatContainer.value.scrollTop = chatContainer.value.scrollHeight
-    }
-  });
-
-  socket.on("chat:message", async (message) => {
-    messages.value.push(message);
-    await nextTick();
-    if (chatContainer.value && autoScroll) {
-      chatContainer.value.scrollTop = chatContainer.value.scrollHeight
-    }
-  });
-});
-
-onUnmounted(() => {
-  socket.off("chat:history");
-  socket.off("chat:message");
+watch(messages, async () => {
+  await nextTick();
+  if (chatContainer.value && autoScroll) {
+    chatContainer.value.scrollTop = chatContainer.value.scrollHeight
+  }
 });
 
 function onScroll() {
