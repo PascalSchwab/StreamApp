@@ -13,19 +13,26 @@
 </style>
 
 <script setup>
-import { ref, watch, nextTick } from "vue";
+import { ref, watch, nextTick, onMounted } from "vue";
 import Activity from "./Activity.vue"
 import { events } from "../js/events";
 
 const eventContainer = ref(null);
 let autoScroll = true;
 
+onMounted(async ()=>{
+  await nextTick();
+  if (eventContainer.value && autoScroll) {
+    eventContainer.value.scrollTop = 0
+  }
+})
+
 watch(events, async ()=>{
   await nextTick();
   if (eventContainer.value && autoScroll) {
     eventContainer.value.scrollTop = 0
   }
-});
+}, { deep: true });
 
 function onScroll() {
   if (!eventContainer.value) return;

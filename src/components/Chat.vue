@@ -14,18 +14,25 @@
 
 <script setup>
 import Message from './Message.vue';
-import { ref, watch, nextTick } from "vue";
+import { ref, watch, nextTick, onMounted } from "vue";
 import { messages } from "../js/chat";
 
 const chatContainer = ref(null);
 let autoScroll = true;
+
+onMounted(async ()=>{
+  await nextTick();
+  if (chatContainer.value && autoScroll) {
+    chatContainer.value.scrollTop = chatContainer.value.scrollHeight
+  }
+})
 
 watch(messages, async () => {
   await nextTick();
   if (chatContainer.value && autoScroll) {
     chatContainer.value.scrollTop = chatContainer.value.scrollHeight
   }
-});
+}, { deep: true });
 
 function onScroll() {
   if (!chatContainer.value) return;

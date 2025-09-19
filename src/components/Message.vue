@@ -1,41 +1,32 @@
-<template>
-  <div :class="messageClass">
-    <div id="badges">
-      <img v-if="message.user.supportInfo.mod" :src="modImg" class="badge" />
-      <img v-if="message.user.supportInfo.sub" :src="primeImg" class="badge" />
-    </div>
-    <div id="username" :style="{ color: message.user.color }">
-      {{ message.user.name }}:
-    </div>
-    <div id="text">
-      <a v-if="isLink" :href="message.text" target="_blank">{{ message.text }}</a>
-      <span v-else>{{ message.text }}</span>
-    </div>
-  </div>
+<template> 
+<div class="message">
+  <div id="badges"> 
+    <img :v-if="message.user.supportInfo.mod" :src="modImg" class="badge" width="20px" /> 
+    <img :v-if="message.user.supportInfo.sub" :src="primeImg" class="badge" width="20px" /> 
+  </div> 
+  <div id="username" :style="{color: message.user.color}">{{ message.user.name }}:</div> 
+  <div id="text"> 
+    <a v-if="isLink" :href="message.text" target="_blank">{{ message.text }}</a> 
+    <div v-else>{{ message.text }}</div> 
+  </div> 
+</div> 
 </template>
 
 <style>
-.message{
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    padding: 10px 5px;
-    height: fit-content;
-    min-height: 40px;
-    gap: 5px;
-    user-select: none;
-    border-bottom: 1px solid black;
+.message{ 
+  width: 100%; 
+  display: flex; 
+  flex-direction: row; 
+  align-items: flex-start; 
+  padding: 5px 5px; 
+  height: fit-content; 
+  min-height: 40px; 
+  gap: 5px; 
+  user-select: none; 
 }
 
-.message.first-message{
-  background-color: rgba(190, 101, 101, 0.678);
-}
-
-.message #text {
-  flex: 1;
-  word-break: break-word;
-  user-select: text;
+.message.first-message{ 
+  background-color: rgba(188, 143, 143, 0.377); 
 }
 
 .message #badges{
